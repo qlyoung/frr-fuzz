@@ -12,8 +12,10 @@ How to Fuzz
 -----------
 1. Clone this repository and my patched copy of FRR:
 
+   ```
    git clone git@github.com:qlyoung/frr-fuzz.git
    git submodule update --init --recursive
+   ```
 
 2. Install FRR build dependencies for your platform
 
@@ -102,9 +104,7 @@ How to Debug Results
   want to debug with `gdb`, perform a clean compile of FRR:
 
   ```
-  cd frr
-  sudo git clean -fdx
-  cd ..
+  sudo git -C frr clean -fdx
   sudo ./install-frr.sh -boi
   ```
 
@@ -123,7 +123,7 @@ same source revision as the one `afl-fuzz` was using when it found the crash.
 Tips
 ----
 * It's best to let AFL reach at least 2 million execs before pulling the plug.
-  Bugs have been found in bgpd at 30 million execs, around 8 hours of runtime
+  Bugs have been found in `bgpd` at 30 million execs, around 8 hours of runtime
   on a 15 core machine. That's 5 days of melty CPU time.
 
 * To stop fuzzing, use `tmux kill-session`. Results will be saved.
