@@ -1,0 +1,4 @@
+[submodule "frr"]
+	path = frr
+	url = https://github.com/qlyoung/frr.git
+	branch = fuzz
