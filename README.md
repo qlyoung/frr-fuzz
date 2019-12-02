@@ -85,7 +85,7 @@ useful to reduce these to as few files as possible.
 To do this:
 
 1. Drop into a root shell
-2. Set the environment variable `ASAN_OPTIONS` to `disable_leaks=0`
+2. Set the environment variable `ASAN_OPTIONS` to `detect_leaks=0`
 3. Run the following:
 
    ```
