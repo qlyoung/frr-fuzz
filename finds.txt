@@ -1,0 +1,18 @@
+- 12/1/19 Heap buffer read overflow when parsing CAPABILITY messages (draft-ietf-idr-dynamic-cap-14)
+
+  ==19211==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60b0000000ae at pc 0x000000606702 bp 0x7ffcf47dcf50 sp 0x7ffcf47dcf48
+  READ of size 1 at 0x60b0000000ae thread T0
+
+  #0 0x606701 in bgp_capability_msg_parse /home/qlyoung/frr/bgpd/bgp_packet.c:2108:3
+  #1 0x606701 in bgp_capability_receive /home/qlyoung/frr/bgpd/bgp_packet.c:2213
+  #2 0x607a67 in bgp_process_packet /home/qlyoung/frr/bgpd/bgp_packet.c:2337:11
+
+- Heap buffer read overflow when reading extended community attribute for Type-5 EVPN routes
+- Heap buffer write overflow when encoding large community attributes into string form
+- Crash by assert failure when decoding Prefix SID attribute with bad length
+- Double free in many scenarios when parsing corrupt attributes
+
+- Heap buffer read overflow in PIM BSM message processing when packet header is truncated
+- Heap buffer read overflow in PIM BSM message processing
+- NPD in PIM BSM message processing when IPv4 prefixlen is out of range
+- NPD in PIM BSM message processing
