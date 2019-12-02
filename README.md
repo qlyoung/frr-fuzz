@@ -3,7 +3,9 @@ frr-fuzz
 
 Patches, utilities, scripts and corpuses for fuzzing Free Range Routing.
 
-Currently patched daemons:
+![afl-fuzz status pane showing runtime and number of crashes found](https://raw.githubusercontent.com/qlyoung/frr-fuzz/master/stat.png)
+
+Currently fuzzable daemons:
 
 - bgpd
 - pimd
