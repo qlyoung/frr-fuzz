@@ -31,7 +31,7 @@ How to Fuzz
    instrumentation, stack hardening and ASAN (yes, you should fuzz with ASAN):
 
    ```
-   sudo ./install-frr -boiaf
+   sudo ./install-frr.sh -boiaf
    ```
 
 5. Optional: add any additional input samples to the appropriate directory
