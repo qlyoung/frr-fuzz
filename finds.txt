@@ -1,3 +1,7 @@
+- 11/24/19 Heap buffer read overflow when ADDPATH missing from NLRI in UPDATE msg
+
+  https://github.com/FRRouting/frr/pull/5423
+
 - 12/1/19 Heap buffer read overflow when parsing CAPABILITY messages (draft-ietf-idr-dynamic-cap-14)
 
   ==19211==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60b0000000ae at pc 0x000000606702 bp 0x7ffcf47dcf50 sp 0x7ffcf47dcf48
