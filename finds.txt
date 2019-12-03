@@ -7,12 +7,60 @@
   #1 0x606701 in bgp_capability_receive /home/qlyoung/frr/bgpd/bgp_packet.c:2213
   #2 0x607a67 in bgp_process_packet /home/qlyoung/frr/bgpd/bgp_packet.c:2337:11
 
+- 12/1/19 Heap buffer read overflow when adding ORF to plist when parsing
+  ROUTE_REFRESH messages
+
+  ==25988== Invalid read of size 8
+  ==25988==    at 0x4EB8D44: trie_install_fn (plist.c:544)
+  ==25988==    by 0x4EB8D0E: trie_walk_affected (plist.c:452)
+  ==25988==    by 0x4EB8C1E: prefix_list_trie_add (plist.c:583)
+  ==25988==    by 0x4EB78DB: prefix_list_entry_add (plist.c:631)
+  ==25988==    by 0x4EB733D: prefix_bgp_orf_set (plist.c:1905)
+  ==25988==    by 0x46B8A8: bgp_route_refresh_receive (bgp_packet.c:1984)
+  ==25988==    by 0x469406: bgp_process_packet (bgp_packet.c:2327)
+  ==25988==    by 0x41B408: main (bgp_main.c:476)
+  ==25988==  Address 0x74b6e48 is 8 bytes after a block of size 4,096 alloc'd
+  ==25988==    at 0x4C31B25: calloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+  ==25988==    by 0x4EA1888: qcalloc (memory.c:110)
+  ==25988==    by 0x4EB86D5: prefix_list_insert (plist.c:216)
+  ==25988==    by 0x4EB740E: prefix_list_get (plist.c:289)
+  ==25988==    by 0x4EB7295: prefix_bgp_orf_set (plist.c:1891)
+  ==25988==    by 0x46B8A8: bgp_route_refresh_receive (bgp_packet.c:1984)
+  ==25988==    by 0x469406: bgp_process_packet (bgp_packet.c:2327)
+  ==25988==    by 0x41B408: main (bgp_main.c:476)<Paste>
+
+  https://github.com/FRRouting/frr/pull/5464
+
 - Heap buffer read overflow when reading extended community attribute for Type-5 EVPN routes
+
+  https://github.com/FRRouting/frr/pull/5409
+
 - Heap buffer write overflow when encoding large community attributes into string form
+
+  https://github.com/FRRouting/frr/pull/5409
+
 - Crash by assert failure when decoding Prefix SID attribute with bad length
+
+  https://github.com/FRRouting/frr/pull/5418
+
 - Double free in many scenarios when parsing corrupt attributes
+
+
+  ==10589==ERROR: AddressSanitizer: heap-use-after-free on address 0x6030000038e0 at pc 0x00000052db51 bp 0x7ffc9cc0a1a0 sp 0x7ffc9cc0a198
+  READ of size 8 at 0x6030000038e0 thread T0
+      #0 0x52db50 in bgp_attr_flush /home/qlyoung/frr/bgpd/bgp_attr.c:938:39
+      #1 0x639b49 in bgp_update /home/qlyoung/frr/bgpd/bgp_route.c:3208:3
+      #2 0x645191 in bgp_nlri_parse_ip /home/qlyoung/frr/bgpd/bgp_route.c:4581:10
+      #3 0x6076da in bgp_update_receive /home/qlyoung/frr/bgpd/bgp_packet.c
+      #4 0x6076da in bgp_process_packet /home/qlyoung/frr/bgpd/bgp_packet.c:2295
+      #5 0x528c66 in main /home/qlyoung/frr/bgpd/bgp_main.c:476:12
+
+  https://github.com/FRRouting/frr/pull/5436
 
 - Heap buffer read overflow in PIM BSM message processing when packet header is truncated
 - Heap buffer read overflow in PIM BSM message processing
 - NPD in PIM BSM message processing when IPv4 prefixlen is out of range
 - NPD in PIM BSM message processing
+
+  https://github.com/FRRouting/frr/pull/5383
+  https://github.com/FRRouting/frr/pull/5360
