@@ -1,8 +1,13 @@
-- 11/24/19 Heap buffer read overflow when ADDPATH missing from NLRI in UPDATE msg
+- 12/11/19 (ospfd) Use of unsanitized IHL field from ip header
+- 12/11/19 (ospfd) Incorrect ip header size check (noncrashing)
+
+  https://github.com/FRRouting/frr/pull/5531
+
+- 11/24/19 (bgpd) Heap buffer read overflow when ADDPATH missing from NLRI in UPDATE msg
 
   https://github.com/FRRouting/frr/pull/5423
 
-- 12/1/19 Heap buffer read overflow when parsing CAPABILITY messages (draft-ietf-idr-dynamic-cap-14)
+- 12/1/19 (bgpd) Heap buffer read overflow when parsing CAPABILITY messages (draft-ietf-idr-dynamic-cap-14)
 
   ==19211==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60b0000000ae at pc 0x000000606702 bp 0x7ffcf47dcf50 sp 0x7ffcf47dcf48
   READ of size 1 at 0x60b0000000ae thread T0
@@ -11,7 +16,7 @@
   #1 0x606701 in bgp_capability_receive /home/qlyoung/frr/bgpd/bgp_packet.c:2213
   #2 0x607a67 in bgp_process_packet /home/qlyoung/frr/bgpd/bgp_packet.c:2337:11
 
-- 12/1/19 Heap buffer read overflow when adding ORF to plist when parsing
+- 12/1/19 (bgpd) Heap buffer read overflow when adding ORF to plist when parsing
   ROUTE_REFRESH messages
 
   ==25988== Invalid read of size 8
@@ -35,20 +40,19 @@
 
   https://github.com/FRRouting/frr/pull/5464
 
-- Heap buffer read overflow when reading extended community attribute for Type-5 EVPN routes
+- (bgpd) Heap buffer read overflow when reading extended community attribute for Type-5 EVPN routes
 
   https://github.com/FRRouting/frr/pull/5409
 
-- Heap buffer write overflow when encoding large community attributes into string form
+- (bgpd) Heap buffer write overflow when encoding large community attributes into string form
 
   https://github.com/FRRouting/frr/pull/5409
 
-- Crash by assert failure when decoding Prefix SID attribute with bad length
+- (bgpd) Crash by assert failure when decoding Prefix SID attribute with bad length
 
   https://github.com/FRRouting/frr/pull/5418
 
-- Double free in many scenarios when parsing corrupt attributes
-
+- (bgpd) Double free in many scenarios when parsing corrupt attributes
 
   ==10589==ERROR: AddressSanitizer: heap-use-after-free on address 0x6030000038e0 at pc 0x00000052db51 bp 0x7ffc9cc0a1a0 sp 0x7ffc9cc0a198
   READ of size 8 at 0x6030000038e0 thread T0
@@ -61,10 +65,10 @@
 
   https://github.com/FRRouting/frr/pull/5436
 
-- Heap buffer read overflow in PIM BSM message processing when packet header is truncated
-- Heap buffer read overflow in PIM BSM message processing
-- NPD in PIM BSM message processing when IPv4 prefixlen is out of range
-- NPD in PIM BSM message processing
+- (pimd) Heap buffer read overflow in PIM BSM message processing when packet header is truncated
+- (pimd) Heap buffer read overflow in PIM BSM message processing
+- (pimd) NPD in PIM BSM message processing when IPv4 prefixlen is out of range
+- (pimd) NPD in PIM BSM message processing
 
   https://github.com/FRRouting/frr/pull/5383
   https://github.com/FRRouting/frr/pull/5360
