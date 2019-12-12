@@ -34,6 +34,7 @@ fi
 BANNER="frr-fuzz-$PROTO"
 
 # Setup AFL system settings
+swapoff -a
 echo core >/proc/sys/kernel/core_pattern
 bash -c 'cd /sys/devices/system/cpu; echo performance | tee cpu*/cpufreq/scaling_governor'
 
