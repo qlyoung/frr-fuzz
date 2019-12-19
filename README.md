@@ -9,6 +9,7 @@ Currently fuzzable daemons:
 
 - bgpd
 - pimd
+- ospfd
 
 How to Fuzz
 -----------
