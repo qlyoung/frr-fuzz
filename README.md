@@ -142,8 +142,12 @@ Tips
   take much more time to test. You can help AFL discover new paths
   significantly faster, and with much higher probability, by providing highly
   complex sample inputs. For example, BGP fuzzing is significantly accelerated
-  by providing an UPDATE packet stuffed with as many NLRIs and attributes as
-  possible, rather than a minimal one.
+  by providing an UPDATE packet stuffed with as many unique NLRIs and
+  attributes as possible, rather than a minimal one. Note that increasing the
+  packet size without adding complexity is bad, since this will just slow
+  execution speed and hamper afl's path discovery efficiency, but adding
+  additional unique fields is good. The point is to add things that cause new
+  code paths to execute.
 
 * Network simulation tools such as mininet are very useful for gathering
   packets to use as input samples. All the current samples were collected this
