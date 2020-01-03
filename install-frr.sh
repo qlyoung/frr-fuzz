@@ -83,7 +83,7 @@ while getopts "d:hobsvcij:taemfx:" opt; do
 			;;
 		f)
 			mycc="afl-clang-fast"
-			mycflags="-g -O2 -funroll-loops"
+			mycflags="-g -O2 -funroll-loops -fno-sanitize-recover=all"
 			extra_configure_switches+=" --enable-undefined-sanitizer"
 			aflharden=1
 			LLVM_CONFIG=$(which llvm-config-9)
@@ -138,7 +138,6 @@ if [ $configure -gt 0 ]; then
 		--enable-dev-build=yes \
 		--enable-nhrpd=no \
 		--enable-sharpd=yes \
-		--enable-fuzzing=yes \
 		--with-pkg-extra-version="" \
 		--enable-rpki=no \
 		--enable-werror=yes \
