@@ -84,6 +84,7 @@ while getopts "d:hobsvcij:taemfx:" opt; do
 		f)
 			mycc="afl-clang-fast"
 			mycflags="-g -O2 -funroll-loops"
+			extra_configure_switches+=" --enable-undefined-sanitizer"
 			aflharden=1
 			LLVM_CONFIG=$(which llvm-config-9)
 			;;
