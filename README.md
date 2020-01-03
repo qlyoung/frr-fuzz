@@ -125,9 +125,7 @@ same source revision as the one `afl-fuzz` was using when it found the crash.
 
 Tips
 ----
-* It's best to let AFL reach at least 2 million execs before pulling the plug.
-  Bugs have been found in `bgpd` at 30 million execs, around 8 hours of runtime
-  on a 15 core machine. That's 5 days of melty CPU time.
+* Best to let the fuzzer run until it's not finding new paths for a day or so.
 
 * To stop fuzzing, use `tmux kill-session`. Results will be saved.
 
