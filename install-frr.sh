@@ -19,9 +19,9 @@ aflharden=0
 ulimit -v unlimited
 
 mycc="clang"
-mycflags="-g -O0"
+mycflags="-g -O3"
 
-while getopts "d:hobsvcij:tx:aemf" opt; do
+while getopts "d:hobsvcij:taemfx:" opt; do
 	case "$opt" in
 		h)
 			echo "-h -- display help"
@@ -36,6 +36,7 @@ while getopts "d:hobsvcij:tx:aemf" opt; do
 			echo "-a -- enable address sanitizer"
 			echo "-t -- enable thread sanitizer"
 			echo "-m -- enable memory sanitizer"
+			echo "-u -- enable undefined behavior sanitizer"
 			echo "-e -- generate compile_commands.json with Bear"
 			echo "-x -- extra arguments"
 			echo "-f -- use afl-clang-fast"
@@ -74,16 +75,20 @@ while getopts "d:hobsvcij:tx:aemf" opt; do
 		m)
 			extra_configure_switches+=" --enable-memory-sanitizer"
 			;;
+		u)
+			extra_configure_switches+=" --enable-undefined-sanitizer"
+			;;
 		e)
 			bear="bear"
 			;;
-		x)
-			mycflags+=" $OPTARG"
-			;;
 		f)
 			mycc="afl-clang-fast"
-			mycflags="-g -O3 -funroll-loops"
+			mycflags="-g -O2 -funroll-loops"
 			aflharden=1
+			LLVM_CONFIG=$(which llvm-config-9)
+			;;
+		x)
+			mycflags+=" $OPTARG"
 			;;
 	esac
 done
@@ -91,6 +96,7 @@ done
 echo "CFLAGS: $mycflags"
 echo "LSAN_OPTIONS: $LSAN_OPTIONS"
 echo "AFL_HARDEN: $aflharden"
+echo "LLVM_CONFIG: $LLVM_CONFIG"
 cd $dir
 
 if [ $bootstrap -gt 0 ]; then
