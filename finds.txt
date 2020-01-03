@@ -1,3 +1,12 @@
+- 1/3/20 (zebra) Stack buffer overflow when processing vxlan macip add / del
+
+  https://github.com/FRRouting/frr/pull/5617
+
+- 1/2/20 (zebra) Stack buffer overflow when setting iface protodown on
+- 1/2/20 (zebra) Assert crash when installing PBR rule with garbage src/dst AFI
+
+  https://github.com/FRRouting/frr/pull/5614
+
 - 12/11/19 (ospfd) Use of unsanitized IHL field from ip header
 - 12/11/19 (ospfd) Incorrect ip header size check (noncrashing)
 
