@@ -7,6 +7,10 @@
 
   https://github.com/FRRouting/frr/pull/5614
 
+- 12/21/19 (pimd) IGMP mtrace query message with bad length field results in uninitialized stack read
+
+  https://github.com/FRRouting/frr/pull/5585
+
 - 12/11/19 (ospfd) Use of unsanitized IHL field from ip header
 - 12/11/19 (ospfd) Incorrect ip header size check (noncrashing)
 
