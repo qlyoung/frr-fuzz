@@ -83,7 +83,7 @@ while getopts "d:hobsvcij:taemfx:" opt; do
 			;;
 		f)
 			mycc="afl-clang-fast"
-			mycflags="-g -O2 -funroll-loops -fno-sanitize-recover=all"
+			mycflags="-g -O2 -funroll-loops -fno-sanitize-recover=all -fsanitize-trap=all"
 			extra_configure_switches+=" --enable-undefined-sanitizer"
 			aflharden=1
 			LLVM_CONFIG=$(which llvm-config-9)
@@ -98,6 +98,7 @@ echo "CFLAGS: $mycflags"
 echo "LSAN_OPTIONS: $LSAN_OPTIONS"
 echo "AFL_HARDEN: $aflharden"
 echo "LLVM_CONFIG: $LLVM_CONFIG"
+echo "extra_configure_switches: $extra_configure_switches"
 cd $dir
 
 if [ $bootstrap -gt 0 ]; then
