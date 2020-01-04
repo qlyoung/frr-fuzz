@@ -133,7 +133,7 @@ Tips
   running AFL with no process memory limit, which is needed when using ASAN.
 
 * The launcher script disables AFL's built-in CPU binding heuristics in favor
-  of manually assigning cores, starting at 0. Make sure cores O to N, where N
+  of manually assigning cores, starting at 0. Make sure cores 0 to N, where N
   is the core count you gave `fuzz.sh`, are free.
 
 * Protocol packets of high complexity, along with highly branched code paths,
