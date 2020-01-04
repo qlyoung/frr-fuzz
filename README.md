@@ -138,14 +138,16 @@ Tips
 
 * Protocol packets of high complexity, along with highly branched code paths,
   take much more time to test. You can help AFL discover new paths
-  significantly faster, and with much higher probability, by providing highly
-  complex sample inputs. For example, BGP fuzzing is significantly accelerated
-  by providing an UPDATE packet stuffed with as many unique NLRIs and
-  attributes as possible, rather than a minimal one. Note that increasing the
-  packet size without adding complexity is bad, since this will just slow
-  execution speed and hamper afl's path discovery efficiency, but adding
-  additional unique fields is good. The point is to add things that cause new
-  code paths to execute.
+  significantly faster, and with much higher probability, by providing high
+  coverage sample inputs. For example, BGP fuzzing is significantly accelerated
+  by providing an UPDATE packet stuffed with as many novel NLRIs and attributes
+  as possible, rather than a minimal one. Novelty in this case does not mean
+  the same NLRI with different prefixes - it means different attributes,
+  different fields, things that will trigger different code paths. Note that
+  increasing the packet size without adding complexity is bad, since this will
+  just slow execution speed and hamper afl's path discovery efficiency, but
+  adding additional unique fields is good. The point is to add things that
+  cause new code paths to execute.
 
 * Network simulation tools such as mininet are very useful for gathering
   packets to use as input samples. All the current samples were collected this
@@ -167,9 +169,15 @@ Tips
 
 * For performance reasons, AFL uses a deferred forkserver to test the target,
   meaning the binary is loaded once, interrupted roughly at `main()`, and then
-  forked to make a new target process to fuzz. Consequently, it is possible to
-  build, uninstall and reinstall FRR without interrupting or invalidating the
-  current fuzzing process. However, it's still a bad idea due to performance
-  concerns, memory concerns, the potential to touch files that might influence
-  the fuzzed processes, etc. If possible, it's best to copy your results to
-  another machine and work with them there.
+  forked to make a new target process to fuzz. All daemons supported by the
+  fuzzing branch move the fork point later in the binary, after basic library
+  and initialization functions, to increase performance. On a modern CPU you
+  should be seeing at least 100 execs/sec and typically much more; if not, try
+  rebuilding FRR.
+
+* As a consequence of the previous bullet, it is possible to build, uninstall
+  and reinstall FRR without interrupting or invalidating the current fuzzing
+  process. However, it's still a bad idea due to performance concerns, memory
+  concerns, the potential to touch files that might influence the fuzzed
+  processes, etc. If possible, it's best to copy your results to another
+  machine and work with them there.
