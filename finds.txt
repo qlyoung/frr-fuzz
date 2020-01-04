@@ -1,3 +1,37 @@
+- 1/3/20 (zebra) Memory leak when installing or removing PBR iptable
+- 1/3/20 (zebra) Failure to null terminate pseudowire interface names read off the wire
+
+  https://github.com/FRRouting/frr/pull/5626
+
+- 1/3/20 (zebra) Failure to null terminate ipset names read off the wire
+
+  https://github.com/FRRouting/frr/pull/5625
+
+- 1/3/20 (zebra) Many bounds checking problems with BFD ZAPI message rerouting
+
+  https://github.com/FRRouting/frr/pull/5624
+
+- 1/3/20 (zebra) Signed overflow when setting RA interval very large
+- 1/3/20 (zebra) Acceptance of negative RA interval
+
+  https://github.com/FRRouting/frr/pull/5623 
+
+- 1/3/20 (zebra) Signed underflow when comparing very small & invalid ifindexes
+
+  https://github.com/FRRouting/frr/pull/5622
+
+- 1/3/20 (zebra) Heap buffer overrun when parsing mpls label message with more nexthops than configured multipath number
+
+  https://github.com/FRRouting/frr/pull/5621
+
+- 1/3/20 (zebra) Assert crash when passed invalid afi in vrf label message
+
+  https://github.com/FRRouting/frr/pull/5620
+
+- 1/3/20 (zebra) Undefined behavior in some netlink flag field bitshifting ops
+
+  https://github.com/FRRouting/frr/pull/5619
+
 - 1/3/20 (zebra) Stack buffer overflow when processing vxlan macip add / del
 
   https://github.com/FRRouting/frr/pull/5617
