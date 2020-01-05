@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # american fuzzy lop - status check tool
 # --------------------------------------
@@ -20,28 +20,31 @@
 echo "status check tool for afl-fuzz by <lcamtuf@google.com>"
 echo
 
-if [ "$1" = "-s" ]; then
+unset SUMMARY_ONLY
 
-  SUMMARY_ONLY=1
-  DIR="$2"
+while getopts "si:" opt; do
+  case "$opt" in
+    s)
+      SUMMARY_ONLY=1
+      ;;
+    i)
+      IFDB=$OPTARG
+      ;;
+  esac
+done
+shift $((OPTIND-1))
 
-else
-
-  unset SUMMARY_ONLY
-  DIR="$1"
-
-fi
-
-if [ "$DIR" = "" ]; then
-
+if [ "$#" -lt "1" ]; then
   echo "Usage: $0 [ -s ] afl_sync_dir" 1>&2
   echo 1>&2
   echo "The -s option causes the tool to skip all the per-fuzzer trivia and show" 1>&2
   echo "just the summary results. See docs/parallel_fuzzing.txt for additional tips." 1>&2
   echo 1>&2
   exit 1
-
 fi
+
+
+DIR="$1"
 
 cd "$DIR" || exit 1
 
@@ -161,12 +164,15 @@ echo "       Crashes found : $TOTAL_CRASHES locally unique"
 echo
 
 # Push to InfluxDB
-influx -execute "INSERT INTO fuzzin.autogen clients value=$ALIVE_CNT"
-influx -execute "INSERT INTO fuzzin.autogen crashes value=$TOTAL_CRASHES"
-influx -execute "INSERT INTO fuzzin.autogen execs_per_sec value=$TOTAL_EPS"
-influx -execute "INSERT INTO fuzzin.autogen execs value=$TOTAL_EXECS"
-influx -execute "INSERT INTO fuzzin.autogen pending value=$TOTAL_PENDING"
-influx -execute "INSERT INTO fuzzin.autogen pending_fav value=$TOTAL_PFAV"
-influx -execute "INSERT INTO fuzzin.autogen cpu_hours value=$RUN_HRS"
+printf "IFDB: %s\n" $IFDB
+if [[ ! -z $IFDB ]]; then
+  influx -execute "INSERT INTO $IFDB.autogen clients value=$ALIVE_CNT"
+  influx -execute "INSERT INTO $IFDB.autogen crashes value=$TOTAL_CRASHES"
+  influx -execute "INSERT INTO $IFDB.autogen execs_per_sec value=$TOTAL_EPS"
+  influx -execute "INSERT INTO $IFDB.autogen execs value=$TOTAL_EXECS"
+  influx -execute "INSERT INTO $IFDB.autogen pending value=$TOTAL_PENDING"
+  influx -execute "INSERT INTO $IFDB.autogen pending_fav value=$TOTAL_PFAV"
+  influx -execute "INSERT INTO $IFDB.autogen cpu_hours value=$RUN_HRS"
+fi
 
 exit 0

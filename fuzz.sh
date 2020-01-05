@@ -5,30 +5,73 @@
 
 #export ASAN_OPTIONS=detect_leaks=0
 
-DEFAULT_CORES=2
-DEFAULT_IDIR="/usr/lib/frr"
+if [[ $EUID -ne 0 ]]; then
+	echo "This script must be run as root"
+	exit 1
+fi
+
+CORES=2
+IDIR="/usr/lib/frr"
+RDIR=""
+SDIR=""
+IFDB=""
+
+printhelp() {
+	printf "$0 [options] <protocol>\n\n"
+	printf "Required parameters:\n\n"
+	printf "  <protocol>\t\ttarget protocol daemon\n"
+	printf "\nOptions:\n\n"
+	printf "  -h\t\tShow this help\n"
+	printf "  -r\t\tresume previous session (false)\n"
+	printf "  -c <cores>\t\tnumber of cores to saturate ($CORES)\n"
+	printf "  -t <dir>\t\tFRR installation directory ($IDIR)\n"
+	printf "  -i <name>\t\tPush stats into InfluxDB database <name>\n"
+	printf "  -o <dir>\t\tSet output directory (out/<daemon>)\n"
+	exit
+}
+
+while getopts "hrc:t:i:o:" opt; do
+	case "$opt" in
+		h)
+			printhelp
+			;;
+		r)
+			SDIR="-"
+			printf "[+] Resuming existing session\n"
+			;;
+		c)
+			CORES=$OPTARG
+			printf "[+] Using %d cores\n" $CORES
+			;;
+		t)
+			IDIR=$OPTARG
+			printf "[+] Using install path '%s'\n" $IDIR
+			;;
+		i)
+			IFDB=$OPTARG
+			printf "[+] Will push stats into InfluxDB '%s'\n" $IFDB
+			;;
+		o)
+			RDIR=$OPTARG
+			printf "[+] Using output directory %s\n" $RDIR
+			;;
+	esac
+done
+shift $((OPTIND-1))
 
 if [ "$#" -lt "1" ]; then
-	printf "Usage: $0 <protocol> [cores] [installdir]\n\n"
-	printf "    <protocol> = one of [pimd, bgpd]\n"
-	printf "    [cores] = number of cores to saturate ($DEFAULT_CORES)\n"
-	printf "    [installdir] = FRR installation directory ($DEFAULT_IDIR)\n"
-	exit
+	printhelp
+	exit 1
 fi
 
-# Arguments
 PROTO=$1
-CORES=$DEFAULT_CORES
-IDIR=$DEFAULT_IDIR
-RDIR="out/$PROTO"
 
-if [ "$#" -gt "1" ]; then
-	CORES=$2
-	echo "Selected cores: $CORES"
+if [[ -z $RDIR ]]; then
+	RDIR="out/$PROTO"
 fi
 
-if [ "$#" -gt "2" ]; then
-	IDIR=$3
+if [[ -z $SDIR ]]; then
+	SDIR=" samples/$PROTO"
 fi
 
 BANNER="frr-fuzz-$PROTO"
@@ -56,7 +99,7 @@ function afl_slave () {
 		SPLIT="-h"
 	fi
 
-	CMD="AFL_NO_AFFINITY=1 taskset -c $ID bash limit_memory.sh -u root afl-fuzz -m none -i samples/$PROTO -o $RDIR $MS -- $IDIR/$PROTO"
+	CMD="AFL_NO_AFFINITY=1 taskset -c $ID bash limit_memory.sh -u root afl-fuzz -m none -i$SDIR -o $RDIR $MS -- $IDIR/$PROTO"
 	echo $CMD
 	if [ "$ID" -ne "0" ]; then
 		tmux split-window -t $BANNER $SPLIT
@@ -76,7 +119,13 @@ for i in `seq 0 $JOBS`; do
 done
 
 tmux split-window -t $BANNER -h
-tmux send-keys -t $BANNER "watch -n 1 ./monitor.sh -s $RDIR" C-m
+
+MON_IFDB_ARG=""
+if [[ ! -z $IFDB ]]; then
+	MON_IFDB_ARG="-i $IFDB"
+fi
+
+tmux send-keys -t $BANNER "watch -n 1 ./monitor.sh $MON_IFDB_ARG -s $RDIR" C-m
 tmux select-layout -t $BANNER tiled
 tmux select-layout -t $BANNER tiled
 
