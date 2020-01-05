@@ -76,7 +76,7 @@ for i in `seq 0 $JOBS`; do
 done
 
 tmux split-window -t $BANNER -h
-tmux send-keys -t $BANNER "watch -n 1 monitor.sh -s $RDIR" C-m
+tmux send-keys -t $BANNER "watch -n 1 ./monitor.sh -s $RDIR" C-m
 tmux select-layout -t $BANNER tiled
 tmux select-layout -t $BANNER tiled
 
