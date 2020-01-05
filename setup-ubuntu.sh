@@ -31,10 +31,12 @@ if [ $? -eq 0 ]; then
 else
 	printf "[+] Building and installing AFL\n"
 	cd AFL
-	make install
+	make
 	cd llvm_mode
+	make
+	cd ..
 	make install
-	cd ../../
+	cd ..
 fi
 
 printf "[+] All done, see README.md for further instructions\n"
