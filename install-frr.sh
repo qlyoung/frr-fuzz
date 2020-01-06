@@ -9,19 +9,20 @@ bootstrap=0
 verbose=0
 clean=0
 scanbuild=""
-bear="bear"
+bear=""
 install=0
 jobz=4
 dir="frr"
 extra_configure_switches=""
 aflharden=0
+use_systemctl=true
 
 ulimit -v unlimited
 
 mycc="clang"
 mycflags="-g -O3"
 
-while getopts "d:hobsvcij:taemfx:" opt; do
+while getopts "d:hobsvcij:taemfx:q" opt; do
 	case "$opt" in
 		h)
 			echo "-h -- display help"
@@ -39,7 +40,8 @@ while getopts "d:hobsvcij:taemfx:" opt; do
 			echo "-u -- enable undefined behavior sanitizer"
 			echo "-e -- generate compile_commands.json with Bear"
 			echo "-x -- extra arguments"
-			echo "-f -- use afl-clang-fast"
+			echo "-f -- use fuzzing specific options"
+			echo "-q -- don't invoke systemctl at all"
 			exit
 			;;
 		o)
@@ -90,6 +92,9 @@ while getopts "d:hobsvcij:taemfx:" opt; do
 			;;
 		x)
 			mycflags+=" $OPTARG"
+			;;
+		q)
+			use_systemctl=false
 			;;
 	esac
 done
@@ -156,10 +161,16 @@ fi
 if [ $install -gt 0 ]; then
 	$scanbuild $bear make -j $jobz
 	# install
-	systemctl stop frr
+	if [ "$use_systemctl" = "true" ]; then
+		systemctl stop frr
+	fi
 	rm -rf /var/log/frr/*
 	rm -rf /var/support/*
 	rm /usr/lib/frr/*
 	make install
-	systemctl reset-failed frr
+	if [ "$use_systemctl" = "true" ]; then
+		systemctl reset-failed frr
+	fi
 fi
+
+exit 0
