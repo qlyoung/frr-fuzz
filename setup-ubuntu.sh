@@ -6,7 +6,7 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 printf "[+] Installing git, tmux, build-essential\n"
-apt install git tmux build-essential
+apt-get install git tmux build-essential
 
 # update submodules
 git submodule update --init --recursive
