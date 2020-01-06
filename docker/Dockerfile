@@ -15,7 +15,8 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
       git \
       build-essential \
       lsb-release \
-      software-properties-common
+      software-properties-common \
+      cgroup-bin
 
 # grafana & influx
 RUN wget -q -O - https://packages.grafana.com/gpg.key | apt-key add - && \
@@ -55,15 +56,15 @@ RUN groupadd -r -g 92 frr && \
 # FRR build and install
 RUN cd /opt/frr-fuzz && ./install-frr.sh -boiqaf
 
-# create entrypoint
-RUN echo '\n\
-/usr/sbin/grafana-server --homepath=/usr/share/grafana --config=/etc/grafana/grafana.ini cfg:default.log.mode="console" > /dev/null & \n\
-influxd run > /dev/null & \n\
-sleep 1 \n\
-influx -execute "CREATE DATABASE fuzzing" \n\
-cd /opt/frr-fuzz && ./fuzz.sh $@' > /opt/run.sh
-RUN chmod +x /opt/run.sh
+# Install Grafana provisioning stuff
+COPY afl-dashboard.json /opt/afl-dashboard.json
+COPY grafana-provisioning-dashboards-afl.yaml /usr/share/grafana/conf/provisioning/dashboards/afl.yaml
+COPY grafana-provisioning-datasources-influxdb.yaml /usr/share/grafana/conf/provisioning/datasources/influxdb.yaml
+
+# Create entrypoint
+COPY entrypoint.sh /opt/entrypoint.sh
+RUN chmod +x /opt/entrypoint.sh
 
 # set entrypoint
-ENTRYPOINT /opt/run.sh
+ENTRYPOINT [ "/opt/entrypoint.sh" ]
 CMD ["-i fuzzing zebra"]
