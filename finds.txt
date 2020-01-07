@@ -1,3 +1,20 @@
+- 1/7/20 (bgpd) memcmp(null, null) when parsing invalid UPDATE attributes
+
+  https://github.com/FRRouting/frr/pull/5638
+
+- 1/7/20 (bgpd) Unaligned pointer access to uint32_t when parsing addpath IDs
+
+  https://github.com/FRRouting/frr/pull/5636
+
+- 1/7/20 (zebra) Double free on some BFD ZAPI packets
+
+  https://github.com/FRRouting/frr/pull/5639
+
+- 1/7/20 (zebra) Infinite loop when parsing corrupt nexthop group install message
+- 1/7/20 (zebra) Memory leak when adding duplicated connected structs
+
+  https://github.com/FRRouting/frr/pull/5637
+
 - 1/3/20 (zebra) Memory leak when installing or removing PBR iptable
 - 1/3/20 (zebra) Failure to null terminate pseudowire interface names read off the wire
 
@@ -14,7 +31,7 @@
 - 1/3/20 (zebra) Signed overflow when setting RA interval very large
 - 1/3/20 (zebra) Acceptance of negative RA interval
 
-  https://github.com/FRRouting/frr/pull/5623 
+  https://github.com/FRRouting/frr/pull/5623
 
 - 1/3/20 (zebra) Signed underflow when comparing very small & invalid ifindexes
 
