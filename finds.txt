@@ -1,3 +1,21 @@
+- 1/13/20 (zebra) Assert crash when parsing corrupt vxlan control message
+
+  https://github.com/FRRouting/frr/pull/5670
+
+- 1/13/20 (zebra) Memory leak upon client disconnect when client has requested redistribution
+
+  https://github.com/FRRouting/frr/pull/5674
+
+- 1/13/20 (zebra) Memory leak upon client disconnect when client has installed ipset
+- 1/13/20 (zebra) Memory leak upon client disconnect when client has installed ipset entry
+- 1/13/20 (zebra) Memory leak upon client disconnect when client has installed ipset rule
+
+  https://github.com/FRRouting/frr/pull/5673
+
+- 1/13/20 (zebra) Heap UAF upon client disconnect after installing iptable
+
+  https://github.com/FRRouting/frr/pull/5672
+
 - 1/7/20 (bgpd) memcmp(null, null) when parsing invalid UPDATE attributes
 
   https://github.com/FRRouting/frr/pull/5638
