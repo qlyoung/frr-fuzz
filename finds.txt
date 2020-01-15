@@ -1,3 +1,5 @@
+- 1/14/20 (zebra) Memory leak upon installing route with safi not in [unicast, multicast] into extant VRF table
+
 - 1/13/20 (zebra) Assert crash when parsing corrupt vxlan control message
 
   https://github.com/FRRouting/frr/pull/5670
