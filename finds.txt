@@ -1,4 +1,10 @@
+- 1/14/20 (zebra) Memory leak upon label manager request when deduplicating label chunks
+
+  https://github.com/FRRouting/frr/pull/5680
+
 - 1/14/20 (zebra) Memory leak upon installing route with safi not in [unicast, multicast] into extant VRF table
+
+  https://github.com/FRRouting/frr/pull/5670
 
 - 1/13/20 (zebra) Assert crash when parsing corrupt vxlan control message
 
