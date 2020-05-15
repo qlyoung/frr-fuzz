@@ -1,3 +1,60 @@
+- 05/15/20 (bgpd) Memory leak when L3 VNI configuration is changed
+
+  https://github.com/FRRouting/frr/pull/6411
+
+- 05/15/20 (bgpd) Heap read overflow parsing corrupt EVPN type-2 prefixes
+
+  https://github.com/FRRouting/frr/pull/6397
+
+- 04/14/20 (ospfd) Heap read overflows when parsing crafted LSAs
+
+  https://github.com/FRRouting/frr/pull/6218
+
+- 04/14/20 (ospfd) Heap UAF upon Rx of self-originated LSA
+
+  https://github.com/FRRouting/frr/pull/6219
+
+- 03/02/20 (libfrr) various crashes, mem errors when parsing corrupt zclient messages
+
+  https://github.com/FRRouting/frr/pull/5892
+
+- 03/06/20 (bgpd) Zero-length cluster lists not treated as withdraw
+
+  https://github.com/FRRouting/frr/pull/6167
+
+- 03/06/20 (bgpd) Heap UAF when freeing cluster lists
+- 03/06/20 (bgpd) Sequential receipt of certain cluster cause heap UAF
+
+  https://github.com/FRRouting/frr/pull/6158
+
+- 04/05/20 (pimd) Crafted PIM BSM packet causes negative bitshift, which is undefined behavior
+
+  https://github.com/FRRouting/frr/pull/6160
+
+- 04/06/20 (pimd) Unaligned memory access during normal PIM TLV parsing
+
+  https://github.com/FRRouting/frr/pull/6159
+
+- 04/05/20 (bgpd) memcmp(NULL, ...) when parsing cluster list attrs
+
+  https://github.com/FRRouting/frr/pull/6156
+
+- 03/05/20 (bgpd) Repeated SRv6 attributes leaked (N-1)*32 bytes of memory
+
+  https://github.com/FRRouting/frr/pull/5920
+
+- 03/03/20 (vrrpd) Heap UAF upon deletion of idle macvlan device
+
+  https://github.com/FRRouting/frr/pull/5919
+
+- 02/22/20 (zebra) Assert crash after Rx of ipset entry zapi msg with invalid afi
+
+  https://github.com/FRRouting/frr/pull/5854
+
+- 1/15/20 (bgpd) Memory leak upon Rx of OPEN with duplicated FQDN capabilities
+
+  https://github.com/FRRouting/frr/pull/5686
+
 - 1/14/20 (zebra) Memory leak upon label manager request when deduplicating label chunks
 
   https://github.com/FRRouting/frr/pull/5680
