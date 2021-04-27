@@ -1,3 +1,7 @@
+- 04/27/21 (bgpd) Assert when rx malformed UPDATE > 4096 bytes
+
+  https://github.com/FRRouting/frr/pull/8581
+
 - 05/15/20 (bgpd) Memory leak when L3 VNI configuration is changed
 
   https://github.com/FRRouting/frr/pull/6411
